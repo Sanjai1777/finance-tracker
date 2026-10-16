@@ -1,0 +1,224 @@
+.budgets-page {
+  padding: 30px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.budgets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.budgets-header h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #1e293b;
+}
+
+.budgets-header p {
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.back-btn {
+  border: none;
+  background: #4f46e5;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  background: #4338ca;
+}
+
+.budget-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.budget-card h2 {
+  margin-top: 0;
+  color: #1e293b;
+}
+
+.budget-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 18px;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4f46e5;
+}
+
+.budget-btn {
+  border: none;
+  background: #4f46e5;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.budget-btn:hover {
+  background: #4338ca;
+}
+
+.budget-title {
+  margin-bottom: 20px;
+}
+
+.budget-title p {
+  color: #64748b;
+  margin: 5px 0;
+}
+
+.budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.budget-item {
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.budget-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.budget-item h3 {
+  margin: 0;
+  color: #1e293b;
+}
+
+.budget-item p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.delete-budget {
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-budget:hover {
+  background: #fecaca;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.warning {
+  background: #f59e0b;
+}
+
+.progress-fill.danger {
+  background: #dc2626;
+}
+
+.budget-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.remaining {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.over-budget {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.empty-budget {
+  text-align: center;
+  padding: 50px 20px;
+  color: #64748b;
+}
+
+.budget-icon {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.empty-budget h3 {
+  color: #334155;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .budgets-page {
+    padding: 18px;
+  }
+
+  .budget-form {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-btn {
+    width: 100%;
+  }
+
+  .budgets-header {
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

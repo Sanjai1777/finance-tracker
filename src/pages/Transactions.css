@@ -1,0 +1,324 @@
+.transactions-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 30px;
+}
+
+/* Header */
+
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.transactions-header h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #1e293b;
+}
+
+.transactions-header p {
+  margin-top: 6px;
+  color: #64748b;
+}
+
+.back-btn {
+  border: none;
+  background: #4f46e5;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  background: #4338ca;
+}
+
+/* Form */
+
+.transaction-form-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.transaction-form-card h2 {
+  margin-top: 0;
+  color: #1e293b;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4f46e5;
+}
+
+.add-btn {
+  margin-top: 20px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-btn:hover {
+  background: #4338ca;
+}
+
+/* Transaction Card */
+
+.transactions-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.transactions-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.transactions-card-header h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 20px;
+}
+
+.transactions-card-header p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filters input,
+.filters select {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #4f46e5;
+}
+
+/* Table */
+
+.transaction-table {
+  width: 100%;
+}
+
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 1.2fr 0.8fr;
+  gap: 15px;
+  align-items: center;
+}
+
+.table-header {
+  padding: 12px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.table-row {
+  padding: 16px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+/* Transaction Name */
+
+.transaction-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.transaction-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.transaction-circle.income {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.transaction-circle.expense {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.transaction-name strong {
+  display: block;
+  color: #334155;
+}
+
+.transaction-name small {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+}
+
+/* Amount */
+
+.amount-income {
+  color: #16a34a;
+}
+
+.amount-expense {
+  color: #dc2626;
+}
+
+/* Delete */
+
+.delete-btn {
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.delete-btn:hover {
+  background: #fecaca;
+}
+
+/* Empty */
+
+.empty-transactions {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.empty-icon {
+  font-size: 45px;
+}
+
+.empty-transactions h3 {
+  color: #334155;
+  margin-bottom: 5px;
+}
+
+.empty-transactions p {
+  color: #64748b;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transactions-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .filters input,
+  .filters select {
+    flex: 1;
+  }
+
+  .table-header {
+    display: none;
+  }
+
+  .table-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 18px 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .transactions-page {
+    padding: 18px;
+  }
+
+  .transactions-header {
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .transactions-header h1 {
+    font-size: 24px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
