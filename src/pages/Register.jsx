@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Wallet } from "lucide-react";
 import "./Register.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Register() {
   const navigate = useNavigate();
 
@@ -38,6 +40,13 @@ function Register() {
 
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
       setError("Please fill in all fields.");
+      return;
+    }
+
+    if (!API_URL) {
+      setError(
+        "API URL is missing. Please configure VITE_API_URL in Vercel."
+      );
       return;
     }
 
@@ -82,7 +91,7 @@ function Register() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/users/register",
+        `${API_URL.replace(/\/$/, "")}/api/users/register`,
         {
           method: "POST",
           headers: {
@@ -100,7 +109,9 @@ function Register() {
 
       if (!response.ok) {
         throw new Error(
-          data.message || data.error || "Registration failed. Please try again."
+          data.message ||
+            data.error ||
+            `Registration failed. Server status: ${response.status}`
         );
       }
 
@@ -113,16 +124,17 @@ function Register() {
         confirmPassword: "",
       });
 
-      // Remove any previous user's local session.
       localStorage.removeItem("currentUser");
 
       setTimeout(() => {
         navigate("/login", { replace: true });
       }, 1200);
     } catch (err) {
+      console.error("Registration error:", err);
+
       if (err instanceof TypeError) {
         setError(
-          "Cannot connect to the server. Make sure your backend is running on port 5000."
+          "Cannot connect to the backend. Please check the backend URL and CORS settings."
         );
       } else {
         setError(err.message || "Something went wrong.");
