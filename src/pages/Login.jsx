@@ -26,7 +26,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "https://finance-tracker-backend-5da5.onrender.com/api/users/login",
+       `${import.meta.env.VITE_API_URL}/api/users/login`,
         {
           method: "POST",
           headers: {
