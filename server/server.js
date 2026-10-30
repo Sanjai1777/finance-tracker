@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -5,34 +6,45 @@ require("dotenv").config();
 
 const app = express();
 
+// Render assigns the port automatically
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
+// Allowed frontend origins
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://finance-tracker-nine-sooty.vercel.app",
   "https://finance-tracker-eight-beryl.vercel.app",
+  "https://finance-tracker-gav8w2xk-fin-track13.vercel.app",
 ];
 
+// CORS configuration
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
       // Allow requests without an origin, such as health checks
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
         return callback(null, true);
       }
 
-      return callback(new Error("CORS: Origin not allowed"));
+      // Allow the listed frontend origins
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow Vercel preview deployments
+      if (/^https:\/\/finance-tracker-[a-z0-9-]+\.vercel\.app$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      console.log("Blocked CORS origin:", origin);
+      return callback(new Error("Origin not allowed by CORS"));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
-// Handle preflight requests
-app.options(/.*/, cors());
-
-// Parse JSON request bodies
+// Parse JSON
 app.use(express.json());
 
 // Root route
@@ -54,29 +66,32 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// API routes
+// User routes
 app.use("/api/users", require("./routes/userRoutes"));
 
-app.use("/api/transactions", require("./routes/transactionRoutes"));
+// Transaction routes
+app.use(
+  "/api/transactions",
+  require("./routes/transactionRoutes")
+);
 
-app.use("/api/budgets", require("./routes/budgetRoutes"));
+// Budget routes
+app.use(
+  "/api/budgets",
+  require("./routes/budgetRoutes")
+);
 
-// Handle unknown routes
+// 404 handler
 app.use((req, res) => {
   res.status(404).json({
     message: "API route not found",
+    path: req.originalUrl,
   });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
   console.error("Server error:", err.message);
-
-  if (err.message === "CORS: Origin not allowed") {
-    return res.status(403).json({
-      message: err.message,
-    });
-  }
 
   res.status(500).json({
     message: "Internal server error",
@@ -101,7 +116,6 @@ async function startServer() {
     });
   } catch (error) {
     console.error("Server startup failed:", error.message);
-
     process.exit(1);
   }
 }
