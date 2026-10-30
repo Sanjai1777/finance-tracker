@@ -8,25 +8,22 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://finance-tracker-eight-beryl.vercel.app",
+];
+
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        "http://localhost:5173",
-        process.env.FRONTEND_URL,
-      ].filter(Boolean);
-
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("CORS: Origin not allowed"));
-    },
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 
 app.use(express.json());
 
+// Root route
 app.get("/", (req, res) => {
   res.json({
     message: "FinTrack API is running",
@@ -34,6 +31,7 @@ app.get("/", (req, res) => {
   });
 });
 
+// Health check
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
@@ -46,32 +44,40 @@ app.get("/api/health", (req, res) => {
 
 // Existing route files
 app.use("/api/users", require("./routes/userRoutes"));
+
 app.use(
   "/api/transactions",
   require("./routes/transactionRoutes")
 );
-app.use("/api/budgets", require("./routes/budgetRoutes"));
+
+app.use(
+  "/api/budgets",
+  require("./routes/budgetRoutes")
+);
 
 // Handle unknown routes
 app.use((req, res) => {
-  res.status(404).json({ message: "API route not found" });
+  res.status(404).json({
+    message: "API route not found",
+  });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
   console.error(err.message);
 
-  if (err.message === "CORS: Origin not allowed") {
-    return res.status(403).json({ message: err.message });
-  }
-
-  res.status(500).json({ message: "Internal server error" });
+  res.status(500).json({
+    message: "Internal server error",
+  });
 });
 
+// Start server
 async function startServer() {
   try {
     if (!process.env.MONGO_URI) {
-      throw new Error("MONGO_URI is missing from environment variables");
+      throw new Error(
+        "MONGO_URI is missing from environment variables"
+      );
     }
 
     await mongoose.connect(process.env.MONGO_URI);
@@ -82,7 +88,11 @@ async function startServer() {
       console.log(`FinTrack API running on port ${PORT}`);
     });
   } catch (error) {
-    console.error("Server startup failed:", error.message);
+    console.error(
+      "Server startup failed:",
+      error.message
+    );
+
     process.exit(1);
   }
 }
