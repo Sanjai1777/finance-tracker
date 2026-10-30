@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Login() {
   const navigate = useNavigate();
 
@@ -22,11 +24,18 @@ function Login() {
       return;
     }
 
+    if (!API_URL) {
+      setError(
+        "API URL is missing. Please configure VITE_API_URL in Vercel."
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
       const response = await fetch(
-       `${import.meta.env.VITE_API_URL}/api/users/login`,
+        `${API_URL.replace(/\/$/, "")}/api/users/login`,
         {
           method: "POST",
           headers: {
@@ -43,28 +52,30 @@ function Login() {
 
       if (!response.ok) {
         setError(
-          data.message || `Login failed. Server status: ${response.status}`
+          data.message ||
+            `Login failed. Server status: ${response.status}`
         );
         return;
       }
 
       if (!data.user || !data.user.id) {
         setError(
-          "The server did not return valid user details. Check userRoutes.js."
+          "Login response is invalid. Please check the backend userRoutes.js."
         );
         return;
       }
 
-      // Save the logged-in user's details.
-      localStorage.setItem("currentUser", JSON.stringify(data.user));
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify(data.user)
+      );
 
-      // Open the dashboard.
       navigate("/dashboard", { replace: true });
     } catch (err) {
       console.error("Login error:", err);
 
       setError(
-        "Cannot connect to the backend. Check that the server is running on port 5000."
+        "Cannot connect to the backend. Please check the backend URL and CORS settings."
       );
     } finally {
       setLoading(false);
@@ -99,6 +110,7 @@ function Login() {
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label htmlFor="login-email">Email address</label>
+
             <input
               id="login-email"
               type="email"
@@ -129,8 +141,12 @@ function Login() {
               <button
                 type="button"
                 className="password-toggle"
-                onClick={() => setShowPassword((previous) => !previous)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() =>
+                  setShowPassword((previous) => !previous)
+                }
+                aria-label={
+                  showPassword ? "Hide password" : "Show password"
+                }
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
